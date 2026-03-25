@@ -1,12 +1,13 @@
 const bedrock = require('bedrock-protocol');
 
-function startBot() {
-  const client = bedrock.createClient({
-    host: 'enim40.aternos.me',
-    port: 64663,
-    username: 'BotAFK',
-    offline: true
-  });
+const client = bedrock.createClient({
+  host: 'enim40.aternos.me',
+  port: 64663,
+  username: 'Steve' + Math.floor(Math.random()*1000),
+  offline: true,
+  raknetBackend: "jsp-raknet",
+  skipPing: true
+});
 
   client.on('join', () => {
     console.log('Bot online!');
