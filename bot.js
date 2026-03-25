@@ -1,33 +1,6 @@
 const bedrock = require('bedrock-protocol');
-
-const client = bedrock.createClient({
-  host: 'enim40.aternos.me',
-  port: 64663,
-  username: 'Steve' + Math.floor(Math.random()*1000),
-  offline: true,
-  raknetBackend: "jsp-raknet",
-  skipPing: true
-});
-
-  client.on('join', () => {
-    console.log('Bot online!');
-  });
-
-  client.on('disconnect', () => {
-    console.log('Disconnesso, riconnessione...');
-    setTimeout(startBot, 5000);
-  });
-
-  client.on('error', () => {
-    console.log('Errore, riavvio...');
-    setTimeout(startBot, 5000);
-  });
-}
-
-startBot();
-
-
 const express = require('express');
+
 const app = express();
 
 app.get('/', (req, res) => {
@@ -37,3 +10,31 @@ app.get('/', (req, res) => {
 app.listen(3000, () => {
   console.log('Web server attivo');
 });
+
+function startBot() {
+  console.log('Avvio bot...');
+
+  const client = bedrock.createClient({
+    host: 'enim40.aternos.me',
+    port: 64663,
+    username: 'Steve' + Math.floor(Math.random()*1000),
+    offline: true,
+    raknetBackend: "jsp-raknet",
+    skipPing: true
+  });
+
+  client.on('join', () => {
+    console.log('Bot connesso!');
+  });
+
+  client.on('disconnect', (packet) => {
+    console.log('Disconnesso:', packet);
+    setTimeout(startBot, 20000); // più lento = meno ban
+  });
+
+  client.on('error', (err) => {
+    console.log('Errore:', err.message);
+  });
+}
+
+startBot();
